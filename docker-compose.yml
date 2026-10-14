@@ -1,0 +1,30 @@
+# ============================================================
+# Finaxis (Sistema de Controle Financeiro Pessoal)
+# Suba tudo com:  docker compose up --build
+# API + frontend: http://localhost:8000
+# Docs (Swagger): http://localhost:8000/docs
+# ============================================================
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: financeiro_app
+    restart: unless-stopped
+    environment:
+      SECRET_KEY: troque-esta-chave-em-producao
+      ACCESS_TOKEN_EXPIRE_MINUTES: "1440"
+      CORS_ORIGINS: '["*"]'
+      LOG_LEVEL: INFO
+      FRONTEND_DIR: /app/frontend
+      DATA_DIR: /app/backend/data
+      BACKUP_DIR: /app/backend/backups
+    ports:
+      - "8000:8000"
+    volumes:
+      - financeiro_data:/app/backend/data
+      - financeiro_backups:/app/backend/backups
+
+volumes:
+  financeiro_data:
+  financeiro_backups:
