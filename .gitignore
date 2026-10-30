@@ -1,90 +1,16 @@
-# ============================================================
-# .gitignore - Finaxis
-# O repositorio guarda apenas codigo-fonte, testes, documentacao
-# e scripts de build. Nunca dados reais, segredos ou artefatos.
-# ============================================================
-
-# --- Python ---
+# Python
 __pycache__/
 *.py[cod]
 *.pyo
-*$py.class
-*.egg-info/
-.eggs/
-.pytest_cache/
-.coverage
-.coverage.*
-htmlcov/
-.mypy_cache/
-.ruff_cache/
-.tox/
-
-# --- Ambiente virtual ---
 .venv/
 venv/
-env/
-ENV/
-backend/.venv/
-backend/.venv-build/
-
-# --- Configuracao local / segredos ---
 .env
 .env.*
 !.env.example
-backend/.env
 
-# --- Credenciais e chaves privadas ---
-*.pem
-*.key
-*.crt
-*.p12
-*.pfx
-*.jks
-secrets/
-credentials.json
-serviceAccountKey.json
-*.token
+# Streamlit secrets
+.streamlit/secrets.toml
 
-# --- Logs ---
-logs/
-backend/logs/
-*.log
-startup-error.log
-
-# --- Editores / SO ---
-.vscode/
-.idea/
-*.swp
-*.swo
-.DS_Store
-Thumbs.db
-
-# --- Node / ferramentas JS (frontend) ---
-node_modules/
-npm-debug.log*
-
-# --- Dados locais, chaves e backups (nunca versionar) ---
-data/
-backend/data/
-backups/
-backend/backups/
-/database/
-*.secret_key
-*.sqlite3
-*.db
-*.bak
-*.tmp
-
-# Fontes baixadas em runtime (opcionais); mantenha se quiser versiona-las
-backend/fonts/*.ttf
-
-# --- Empacotamento / instalador (artefatos gerados) ---
-installer/output/
-installer/payload/
-installer/build/
-dist/
-*.zip
-*.exe
-*.msi
-*.dmg
-*.pkg
+# Runtime database (keep the legacy migration source)
+data/finaxis_v2.db
+data/finaxis_v2.db-*

@@ -1,234 +1,138 @@
-# Finaxis — Sistema de Controle Financeiro Pessoal
+# Finaxis 2.0 — Sistema de Controle Financeiro Pessoal
 
-Aplicação web completa (API + SPA) para controle de finanças pessoais, desenvolvida
-como projeto da disciplina de **Paradigmas de Linguagens de Programação em Python**.
+Segunda versão independente da Entrega 1, desenvolvida em Python, Streamlit e SQLite. O projeto original não é alterado.
 
-O sistema permite gerir **contas**, **lançamentos**, **cartões de crédito** (com
-faturas e parcelamentos), **contas a pagar/receber**, **orçamentos**, **lançamentos
-recorrentes**, **notificações** e **relatórios exportáveis** (CSV, XLSX e PDF).
+## Funcionalidades
 
-## Stack
-
-- **Backend:** FastAPI + Pydantic v2
-- **Persistência:** arquivos **JSON** locais (`backend/data/*.json`) — sem banco de dados externo
-- **Autenticação:** JWT (PyJWT) com hashing de senha
-- **Frontend:** SPA em HTML/CSS/JavaScript puro, servida pelo próprio FastAPI
-- **Relatórios:** `openpyxl` (Excel) e `fpdf2` (PDF)
-- **Testes:** `pytest` + `httpx` (TestClient)
-
-## Estrutura do projeto
-
-```
-.
-├── backend/
-│   ├── app/                 # código da aplicação
-│   │   ├── api/routes/      # endpoints REST
-│   │   ├── core/            # configuração, segurança, dependências
-│   │   ├── database/        # sessão JSON (fachada de persistência)
-│   │   ├── models/          # modelos (classes simples persistidas em JSON)
-│   │   ├── repositories/    # acesso a dados (+ json_database.py)
-│   │   ├── schemas/         # modelos Pydantic (request/response)
-│   │   ├── services/        # regras de negócio
-│   │   └── utils/           # utilidades (datas, dinheiro)
-│   ├── data/                # dados do usuário (*.json) — criado em runtime
-│   ├── backups/             # backups manuais dos dados
-│   ├── tests/               # suíte de testes (pytest)
-│   └── requirements.txt
-├── frontend/                # SPA (HTML/CSS/JS)
-├── installer/               # empacotamento: launcher, spec, iss, build/teste
-├── scripts/                 # automação (setup, run, test, create_data, backup)
-│   └── legacy/              # ferramentas opcionais (migração de PostgreSQL antigo)
-├── docs/                    # guias de instalação, uso e execução
-├── dist/                    # artefatos gerados (instalador + ZIP de fontes)
-├── .env.example
-├── Dockerfile
-└── docker-compose.yml
-```
-
-## Instalação (usuário final, Windows)
-
-O projeto é distribuído como um instalador **autocontido**
-(`FinaxisSetup.exe`), que **não exige Python nem banco de dados**.
-Passo a passo, local dos dados e desinstalação estão em
-[`docs/GUIA-DE-INSTALACAO.md`](docs/GUIA-DE-INSTALACAO.md).
-
-## Empacotamento (desenvolvedor)
-
-```powershell
-# Executável + instalador (requer Inno Setup 6)
-powershell -ExecutionPolicy Bypass -File installer\build.ps1
-
-# Apenas o executável autocontido
-powershell -ExecutionPolicy Bypass -File installer\build.ps1 -SkipInstaller
-
-# Testa o pacote (auth, CRUD, relatórios, instância única, persistência)
-powershell -ExecutionPolicy Bypass -File installer\test_package.ps1
-
-# ZIP do código-fonte
-powershell -ExecutionPolicy Bypass -File installer\make_source_zip.ps1
-```
-
-Detalhes em [`docs/GUIA-DE-EXECUCAO.md`](docs/GUIA-DE-EXECUCAO.md) e uso em
-[`docs/GUIA-DE-USO.md`](docs/GUIA-DE-USO.md).
+1. Dashboard com indicadores, comparativo mensal, gráficos de categorias e evolução.
+2. Lançamentos com filtros, pesquisa, edição e exclusão.
+3. Contas e transferências entre contas.
+4. Cartões de crédito, compras parceladas e acompanhamento do limite cadastrado.
+5. Orçamentos mensais por categoria com indicadores de utilização.
+6. Contas a pagar e a receber por meio dos lançamentos e seus status.
+7. Lançamentos recorrentes (diário, semanal, mensal e anual).
+8. Relatórios com exportação CSV, XLSX e PDF.
+9. Notificações para despesas pendentes próximas do vencimento, atrasadas e orçamento a partir de 80%.
+10. Cadastro/login com hash PBKDF2 de senha e dados separados por usuário.
+11. Backup JSON por usuário e rotina de migração da base da versão 1.
+12. Interface Streamlit responsiva e navegação por módulos.
+13. Perfil, moeda, categorias, validações, estrutura modular e persistência SQLite.
 
 ## Requisitos
 
-- Python 3.12+ (testado com 3.14)
-- Nenhum banco de dados ou serviço externo é necessário
+- Python 3.10+
+- Windows, Linux ou macOS
+- Dependências listadas em `requirements.txt`
 
-## Execução com Docker (opcional)
+## Executar no Windows
 
-```bash
-docker compose up --build
-```
-
-- Aplicação: http://localhost:8000
-- Documentação (Swagger): http://localhost:8000/docs
-
-Os dados são gravados no volume `financeiro_data` (mapeado para `backend/data`).
-
-## Execução local (recomendado)
-
-1. **Preparar o ambiente** (cria `backend\.venv`, instala dependências e o `.env`):
-
-   ```powershell
-   powershell -ExecutionPolicy Bypass -File scripts/setup.ps1
-   ```
-
-   Opcionalmente, garanta os diretórios de dados/backup:
-
-   ```powershell
-   powershell -ExecutionPolicy Bypass -File scripts/create_data.ps1
-   ```
-
-2. **Subir a API**:
-
-   ```powershell
-   powershell -ExecutionPolicy Bypass -File scripts/run.ps1
-   ```
-
-3. Acesse http://127.0.0.1:8000 (docs em http://127.0.0.1:8000/docs).
-
-> Os arquivos de dados são criados automaticamente no primeiro acesso em
-> `backend/data/`. Para ajustar os caminhos, use `DATA_DIR` e `BACKUP_DIR` no `.env`.
-
-## Testes
-
-Os testes usam um diretório **temporário** para os JSONs e limpam os dados entre
-casos — os dados reais em `backend/data` não são afetados.
+Abra o PowerShell dentro desta pasta:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File scripts/test.ps1
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+streamlit run app.py
 ```
 
-Ou, diretamente:
+Se a política do PowerShell impedir a ativação do ambiente virtual, execute diretamente:
 
 ```powershell
-cd backend
-.venv\Scripts\python.exe -m pytest tests -v
+.\.venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-A suíte cobre autenticação, contas, categorias, transações (incl. cartão/parcelamento),
-contas a pagar/receber, orçamentos, dashboard, relatórios/exportações, busca,
-notificações, configurações e lançamentos recorrentes.
-
-Testes do frontend (download autenticado das exportações), requer Node.js:
+## Executar no Linux/macOS
 
 ```bash
-node --test frontend/tests/api-download.test.js
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+streamlit run app.py
 ```
 
-## Backup e migração de dados
+O navegador abrirá em `http://localhost:8501`.
 
-- **Backup manual:**
+## Primeiro acesso
 
-  ```powershell
-  powershell -ExecutionPolicy Bypass -File scripts/backup.ps1 [-Tag nome]
-  ```
+1. Clique em **Criar conta**.
+2. Informe nome, e-mail e senha com pelo menos 10 caracteres.
+3. Entre no sistema e confira as contas e categorias iniciais.
+4. Para importar os lançamentos da versão anterior, entre em **Configurações** e use **Verificar e migrar dados da versão 1**.
 
-  Gera `backend/backups/backup-YYYY-MM-DD-HHMMSS/` com todos os `.json`.
+A migração é vinculada ao usuário autenticado e pode ser executada uma única vez por usuário. O arquivo original `financeiro.db` não é alterado; uma cópia foi incluída em `data/financeiro_v1.db` como origem de migração. Se a base original estiver em outro local, informe seu caminho na tela de configurações.
 
-- **Migração de um PostgreSQL antigo — OPCIONAL / LEGADA:**
+## Banco e privacidade
 
-  > ⚠️ Esta ferramenta **não faz parte da aplicação**. Ela só serve para quem
-  > possui uma instalação **antiga** (versões anteriores com PostgreSQL) e quer
-  > reaproveitar os dados. **Não é necessária** para instalar, iniciar, testar
-  > nem usar o sistema atual, e **não é usada pelo instalador**. O driver
-  > `psycopg` **não** está no `requirements.txt`.
+- O banco da V2 fica em `data/finaxis_v2.db`.
+- A base antiga para migração fica em `data/financeiro_v1.db`.
+- Pode definir `FINAXIS_DB` para escolher o arquivo do banco V2.
+- Pode definir `FINAXIS_V1_DB` para escolher a base legada.
+- Consultas e alterações dos módulos filtram os registros pelo ID do usuário autenticado.
+- Senhas não são guardadas em texto puro.
+- O backup JSON exporta somente os registros do usuário autenticado.
 
-  ```bash
-  # SOMENTE se você tem um banco PostgreSQL antigo com dados para migrar:
-  pip install "psycopg[binary]"
-  python scripts/legacy/migrate_to_json.py --dsn "postgresql://postgres:postgres@localhost:5432/financeiro" --out backend/data
-  ```
+**Importante:** SQLite local é apropriado para uso pessoal ou implantação pequena. Para uso público/multiusuário na internet, publique apenas atrás de HTTPS, com controle de acesso e política de backup; não exponha o servidor de desenvolvimento Streamlit diretamente à internet.
 
-  Depois disso, o `psycopg` pode ser desinstalado e o PostgreSQL desativado.
+## Estrutura
 
-## Independência de PostgreSQL
+```text
+Finaxis_2.0/
+├── app.py
+├── database.py
+├── requirements.txt
+├── README.md
+├── .streamlit/config.toml
+└── data/
+    ├── .gitkeep
+    └── financeiro_v1.db
+```
 
-A aplicação principal é **100% independente de PostgreSQL**:
+## Limitações conhecidas / próximos refinamentos
 
-- A única persistência é JSON (`backend/data/*.json`).
-- `SQLAlchemy`, `Alembic`, `psycopg`/`psycopg2`, `DATABASE_URL` e `create_db.ps1`
-  foram **removidos**.
-- Instalação nova, testes e instalador **não exigem** nenhum banco de dados.
-- O único resquício é `scripts/legacy/migrate_to_json.py`, uma ferramenta legada
-  opcional (não importada, não obrigatória).
+- Compras no cartão são registradas no módulo de cartões e não são lançadas automaticamente nas despesas, para evitar dupla contagem. O cálculo de ciclo/fatura por competência pode ser refinado em uma próxima revisão.
+- A geração de recorrências ocorre ao abrir a aplicação. Em instalações que precisam de execução pontual mesmo quando ninguém abre o sistema, recomenda-se um agendador.
+- A restauração JSON já está disponível em Configurações; ela adiciona registros ao usuário atual e deve ser testada primeiro com uma conta de teste para evitar duplicidades.
+- O cadastro de usuário está aberto para o ambiente local. Em uma implantação compartilhada/publicada, convém restringir o cadastro ou adicionar aprovação administrativa.
 
-## Variáveis de ambiente
+## Revisão técnica — Fase 3
 
-Veja `.env.example`. Principais:
+A revisão da Fase 3 reforçou a camada financeira e a migração:
 
-| Variável | Descrição | Padrão |
-| --- | --- | --- |
-| `DATA_DIR` | Diretório dos arquivos JSON | `data` |
-| `BACKUP_DIR` | Diretório de backups | `backups` |
-| `SECRET_KEY` | Chave de assinatura JWT | `change-me-in-production` |
-| `ACCESS_TOKEN_EXPIRE_MINUTES` | Validade do token | `1440` |
-| `CORS_ORIGINS` | Origens permitidas (JSON) | `["*"]` |
-| `FRONTEND_DIR` | Caminho do frontend | `frontend` |
-| `LOG_LEVEL` | Nível de log | `INFO` |
+- Transferências agora são gravadas atomicamente, evitando registrar apenas a saída ou apenas a entrada.
+- Valores monetários usam `Decimal`; totais de orçamento somam valores decimais sem depender de `SUM(CAST(... AS REAL))`.
+- A edição valida conta/categoria pertencentes ao usuário; transferências pareadas são editadas em conjunto e não podem ser alteradas se o par estiver incompleto.
+- Compras de cartão são distribuídas por fatura a partir do dia de fechamento; a divisão de parcelas distribui os centavos restantes sem perder valor.
+- Faturas exibem total, vencimento, pagamentos e saldo em aberto. Pagamentos parciais registram a saída na conta escolhida e atualizam a fatura; excluir o lançamento de pagamento estorna a baixa da fatura.
+- Recorrências validam conta/categoria, tratam datas de fim de mês/ano bissexto e possuem índice de unicidade para evitar gerar a mesma ocorrência duas vezes.
+- Migração abre a base V1 em modo somente leitura e realiza as importações dentro de uma transação, sem modificar o banco de origem.
+- Backup/restauração contempla pagamentos de faturas e reconstitui seus vínculos com os lançamentos restaurados.
 
-`DATA_DIR`/`BACKUP_DIR` são resolvidos relativos à pasta `backend/` quando não
-absolutos. A pasta de dados e os arquivos de coleção são criados automaticamente.
+### Testes executados nesta revisão
 
-## Formatos de dados
+`python -m unittest discover -s tests -v` — **10 testes aprovados**, cobrindo autenticação e isolamento, transferência atômica, edição/exclusão, backup/restauração, formato monetário brasileiro, fatura parcelada e pagamento parcial, recorrências sem duplicidade, orçamentos decimais e migração somente leitura.
 
-Cada coleção (`users`, `accounts`, `transactions`, `categories`, `credit_cards`,
-`installments`, `budgets`, `payables`, `receivables`, `notifications`,
-`recurring_transactions`) fica em um arquivo `<colecao>.json` contendo uma lista de
-objetos. Convenções:
+`python -m compileall -q .` — compilação sintática do código Python aprovada.
 
-- **Identificadores:** UUID em string (independem da posição no arquivo).
-- **Valores monetários:** string decimal (ex.: `"123.45"`), convertidos para `Decimal`.
-- **Datas:** `YYYY-MM-DD`; **datas/horas:** ISO 8601.
-- **Escritas atômicas:** temp file + `os.replace`, protegidas por lock.
+### Limites ainda conhecidos
 
-## Principais endpoints
+- A interface Streamlit não foi iniciada visualmente neste ambiente porque a dependência Streamlit não está instalada aqui. Execute os comandos de instalação acima e valide os fluxos no navegador antes de usar com dados reais.
+- O arquivo de banco legado incluído na Entrega 1 contém 11 categorias e zero lançamentos. Se a base real estiver em outro caminho, indique esse caminho na tela de migração e confira os totais antes de usar o sistema.
+- O cálculo de fatura usa mês de fechamento como competência e vencimento no mês seguinte. Confirme se esse comportamento corresponde às regras do emissor do seu cartão.
+- O cadastro segue aberto para uso local. Antes de disponibilizar a aplicação a terceiros ou na internet, implemente controle de cadastro, HTTPS e uma política de backup operacional.
 
-Todos sob o prefixo `/api` (ver `/docs` para a lista completa).
 
-- `POST /auth/register`, `POST /auth/login`, `GET /auth/me`, `POST /auth/logout`
-- `GET/POST/PUT/DELETE /accounts`
-- `GET/POST/PUT/DELETE /categories`, `PATCH /categories/{id}/toggle`
-- `GET/POST/PUT/DELETE /transactions`
-- `GET/POST /cards`, `GET /cards/{id}/invoices`, `POST /cards/{id}/invoices/{month}/pay`
-- `GET/POST/PUT/DELETE /payables`, `POST /payables/{id}/pay|reopen`
-- `GET/POST/PUT/DELETE /receivables`, `POST /receivables/{id}/receive|cancel`
-- `GET/POST/PUT/DELETE /budgets`
-- `GET/POST/PUT/DELETE /recurring`, `POST /recurring/process`
-- `GET /dashboard`
-- `GET /reports/summary`, `GET /reports/export?fmt=csv|xlsx|pdf`
-- `GET /search?q=...`
-- `GET /notifications`, `POST /notifications/generate`, `GET /notifications/unread-count`
-- `GET /settings`, `PUT /settings/profile|preferences|password`
+## Fase 4 — Segurança, interface, relatórios e notificações
 
-## Notas de implementação
+Nesta revisão foram adicionados: bloqueio temporário após cinco tentativas inválidas de autenticação (15 minutos), expiração da sessão após 30 minutos sem atividade detectada em uma nova interação, registro de eventos relevantes da conta, consulta do histórico de atividade, opção para marcar todas as notificações como lidas, filtros adicionais nos relatórios e totais calculados com `Decimal`.
 
-- Valores monetários são tratados como `Decimal`; a API serializa como string.
-- A segurança usa tokens JWT (Bearer) e o isolamento por usuário é aplicado em
-  todas as consultas.
-- As categorias padrão são criadas automaticamente no cadastro de cada usuário.
-- A camada de persistência (`app/repositories/json_database.py`) concentra o acesso
-  aos arquivos; os serviços usam uma sessão (`JsonSession`) com mapa de identidade
-  e rastreio de alterações que persiste no `commit()`.
+Os backups agora identificam o produto e a versão do esquema, limitam o arquivo de restauração a 20 MB e rejeitam arquivos JSON de outro produto. A restauração continua sendo uma operação de adição/mesclagem por nome, portanto deve ser feita preferencialmente em uma conta vazia e após baixar um backup atual.
+
+### Testes
+
+Execute `python -m unittest discover -s tests -v`. A suíte desta entrega contém 13 testes. A validação de sintaxe pode ser feita com `python -m py_compile app.py database.py`.
+
+### Observação de segurança
+
+O controle de sessão de 30 minutos é aplicado quando o Streamlit executa uma nova interação; não há temporizador de servidor que encerre uma conexão ociosa exatamente no minuto 30. Para publicação multiusuário na internet, recomenda-se HTTPS, proxy reverso, gestão segura de segredos e revisão operacional adicional.
