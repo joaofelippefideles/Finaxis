@@ -1,0 +1,28 @@
+FINAXIS 2.0 — INICIALIZACAO COM UM CLIQUE
+
+COMO USAR
+1. Extraia todos os arquivos do ZIP para uma pasta.
+2. Entre na pasta extraida.
+3. De dois cliques em INICIAR_FINAXIS.bat.
+4. Aguarde o navegador abrir.
+
+PRIMEIRA EXECUCAO
+Na primeira vez, o inicializador cria o ambiente Python e instala as dependencias.
+Essa etapa pode demorar e precisa de internet. Nas proximas inicializacoes, ele
+reutiliza o ambiente e normalmente abre bem mais rapido.
+
+PARA ENCERRAR
+Feche a janela preta do inicializador. Isso encerra o servidor local do Finaxis.
+
+IMPORTANTE SOBRE SEUS DADOS
+- Antes de atualizar, faca uma copia da pasta atual e do banco
+  data/finaxis_v2.db.
+- Este pacote nao inclui seu banco financeiro pessoal.
+- Para preservar seus dados, copie seu banco atual para a pasta data desta
+  instalacao, mantendo o nome finaxis_v2.db.
+- Nao apague nem substitua o banco original sem ter uma copia de seguranca.
+
+REQUISITOS
+- Windows 10 ou Windows 11.
+- Python 3 instalado e disponivel no PATH.
+- Internet necessaria na primeira execucao para instalar as bibliotecas.
