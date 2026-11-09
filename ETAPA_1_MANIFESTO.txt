@@ -1,0 +1,31 @@
+FINAXIS 2.0 — ETAPA 1: PREPARAÇÃO E PROTEÇÃO
+Data da preparação: 09/11/2026 10:36:16
+Arquivo de origem: Entrega 4 - Finaxis.zip
+SHA-256 do ZIP original: da81a8f56ba2812e984db4bcea1fd583f1f206e6cd85d028f037d7c5237da947
+Raiz identificada no ZIP: Entrega 4 - Finaxis/
+Arquivos copiados para a área de trabalho: 14
+Arquivos/pastas excluídos da área de trabalho: 13996
+
+REGRAS DE PROTEÇÃO
+1. O ZIP original foi preservado sem alterações em backup_original/.
+2. O código será alterado somente em projeto_trabalho/.
+3. Os bancos SQLite da origem foram copiados para projeto_trabalho/data/ sem edição.
+4. Ambientes virtuais e caches foram excluídos da cópia de trabalho.
+5. Não execute testes de escrita nem migrações sobre os bancos originais.
+6. Antes de qualquer correção que altere dados, criar cópia adicional do banco.
+
+ARQUIVOS COPIADOS:
+- .gitignore | SHA-256: c15ef6c6ab4f3d913b1a78d45b7de2ca4a873937ed4ec39c0343028e00679fac
+- .streamlit/config.toml | SHA-256: 880789e06e45005559a3b0f408425caeb8220c4601e3eac0a011622a5e6f38ec
+- app.py | SHA-256: 0eaae3b7b753f9679e598f9c7da049e0d97fc7c75297baf32ad585531dd0a1dd
+- data/.gitkeep | SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+- data/financeiro_v1.db | SHA-256: 3fe83b3970bf52f462b6b9078774dbc0f6dfb96f018763e4a62a6d6587a645dd
+- data/finaxis_v2.db | SHA-256: 1426e5a38c18cbba43c622c0df8d59b6d7671702b5d2b44fd47c1c008288e4ee
+- database.py | SHA-256: 826ad4149581d515e1705738939221824388c966e6d3cb9ca121d8182e522fcd
+- FASE_3_AUDITORIA.md | SHA-256: 89bc009d18b1778be6a4799c70e663304383421394615dd7c36eae54a20e5d9f
+- FASE_4_RELATORIO.md | SHA-256: f440929867bd31ee2e327f33d12439c2d36cee0ad8381892cbcf9fbc65084bb6
+- LICENSE.txt | SHA-256: d4f23925a118ad3d2900edc498dcc5d2430a8127a839d4173ec7c6eac2e2057f
+- README.md | SHA-256: 84444ca17d886f481755eea5901add2cd1acca95440fe10d6b3908da1a055fb3
+- requirements.txt | SHA-256: 1a8475e4bc10662f65f07f551e02edb8f5cba23387b3e3a4711e843e9bec2890
+- TEMA_DARK_GOLD.md | SHA-256: 55b4ee64daa8a56800eef347e9ea5181d37999fd6fa0aa0d88c704dd3e1db9c6
+- tests/test_database.py | SHA-256: ae9a47bdef2a592bac89dc465f620203cd4070125b4b65268f68bb4cf5d3591f

@@ -1,4 +1,4 @@
-# Finaxis 2.0 — Relatório de execução da Fase 3
+# Finaxis — Relatório de execução da Fase 3
 
 Data da revisão: 29/10/2026
 

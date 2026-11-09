@@ -1,4 +1,4 @@
-# Finaxis 2.0 — Sistema de Controle Financeiro Pessoal
+# Finaxis — Sistema de Controle Financeiro Pessoal
 
 Segunda versão independente da Entrega 1, desenvolvida em Python, Streamlit e SQLite. O projeto original não é alterado.
 
@@ -26,7 +26,7 @@ Segunda versão independente da Entrega 1, desenvolvida em Python, Streamlit e S
 
 ## Executar no Windows
 
-Abra o PowerShell dentro desta pasta:
+Abra o PowerShell na raiz do projeto (pasta que contém `app.py`):
 
 ```powershell
 py -m venv .venv
@@ -82,8 +82,10 @@ Finaxis_2.0/
 ├── app.py
 ├── database.py
 ├── requirements.txt
-├── README.md
 ├── .streamlit/config.toml
+├── docs/
+│   ├── README.md
+│   └── (demais relatórios e documentação .md)
 └── data/
     ├── .gitkeep
     └── financeiro_v1.db
@@ -136,3 +138,19 @@ Execute `python -m unittest discover -s tests -v`. A suíte desta entrega conté
 ### Observação de segurança
 
 O controle de sessão de 30 minutos é aplicado quando o Streamlit executa uma nova interação; não há temporizador de servidor que encerre uma conexão ociosa exatamente no minuto 30. Para publicação multiusuário na internet, recomenda-se HTTPS, proxy reverso, gestão segura de segredos e revisão operacional adicional.
+
+
+## Conta de demonstração (administrador)
+
+A inicialização cria automaticamente, uma única vez, a conta:
+
+- E-mail: `admin@finaxis.demo`
+- Perfil salvo: `admin`
+
+A senha da conta não é exibida na tela de login nem neste documento. Ela é
+armazenada no SQLite como hash PBKDF2-HMAC-SHA256 com salt aleatório
+(310.000 iterações); o texto da senha não é gravado no banco. Configure/troque
+a senha antes de usar a aplicação com dados reais ou expô-la à rede.
+
+O perfil `admin` identifica a conta de demonstração. Esta versão ainda não
+implementa um painel administrativo nem permissões adicionais de gestão global.

@@ -1,4 +1,4 @@
-# Finaxis 2.0 — Relatório da Fase 4
+# Finaxis — Relatório da Fase 4
 
 ## Escopo implementado
 
